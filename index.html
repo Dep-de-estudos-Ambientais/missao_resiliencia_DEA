@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#166b47" />
+  <title>Missão Resiliência</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ambient ambient-1">☁️</div>
+  <div class="ambient ambient-2">🍃</div>
+  <div class="ambient ambient-3">💧</div>
+  <div class="ambient ambient-4">☀️</div>
+
+  <main class="app-shell">
+    <header class="brand">
+      <div class="brand-badge">🌎</div>
+      <div>
+        <p class="eyebrow">Educação ambiental em forma de jogo</p>
+        <h1>Missão Resiliência</h1>
+        <p class="subtitle">Aprenda, dispute e descubra como pequenas atitudes ajudam a construir comunidades mais seguras e resilientes.</p>
+      </div>
+    </header>
+
+    <!-- INÍCIO -->
+    <section id="screen-start" class="screen active">
+      <div class="panel hero-panel">
+        <div class="hero-copy">
+          <span class="tag">🎲 Nova versão</span>
+          <h2>Escolha como quer jogar</h2>
+          <p>Jogue sozinho ou reúna os amigos no mesmo dispositivo para uma competição educativa.</p>
+
+          <div class="mode-grid" id="mode-grid">
+            <button class="mode-card selected" type="button" data-mode="solo">
+              <span class="mode-icon">🧭</span>
+              <strong>Jogar individualmente</strong>
+              <small>Uma jornada pessoal pela resiliência.</small>
+            </button>
+            <button class="mode-card" type="button" data-mode="friends">
+              <span class="mode-icon">🏁</span>
+              <strong>Jogar com os amigos</strong>
+              <small>De 2 a 4 jogadores, em turnos, no mesmo tabuleiro.</small>
+            </button>
+          </div>
+
+          <div class="rules-strip">
+            <span>✅ Acertou: avança</span>
+            <span>❌ Errou: fica</span>
+            <span>🛡️ Prepare-se</span>
+            <span>🏆 Primeiro a chegar vence</span>
+          </div>
+        </div>
+
+        <form id="start-form" class="start-form">
+          <div class="form-row">
+            <label for="mission-select">Missão / temática das perguntas</label>
+            <select id="mission-select">
+              <option value="completa">🌎 Missão Completa — todas as temáticas</option>
+              <option value="chuvas">🌧️ Somente Chuvas e Alagamentos</option>
+              <option value="queimadas">🔥 Somente Queimadas</option>
+              <option value="calor">☀️ Somente Calor e Seca</option>
+              <option value="deslizamentos">⛰️ Somente Deslizamentos</option>
+            </select>
+            <small class="mission-help">
+              A missão escolhida define quais perguntas entram na partida. 
+              Em <strong>Missão Completa</strong>, todas as temáticas são misturadas.
+            </small>
+          </div>
+
+          <div id="friends-count-wrap" class="form-row hidden">
+            <label for="friends-count">Número de jogadores</label>
+            <select id="friends-count">
+              <option value="2">2 jogadores</option>
+              <option value="3">3 jogadores</option>
+              <option value="4">4 jogadores</option>
+            </select>
+          </div>
+
+          <div class="setup-title">
+            <span>🌿</span>
+            <div>
+              <strong>Escolha seu nome e avatar</strong>
+              <small>Os avatares representam elementos da natureza.</small>
+            </div>
+          </div>
+
+          <div id="players-setup" class="players-setup"></div>
+
+          <button class="btn primary big" type="submit">
+            <span>Começar missão</span>
+            <span>➜</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div>🎭</div>
+          <strong>Avatares elementais</strong>
+          <span>Água, floresta, sol, terra, vento e chuva acompanham os jogadores no tabuleiro.</span>
+        </article>
+        <article class="feature-card">
+          <div>🎲</div>
+          <strong>Dado 3D animado</strong>
+          <span>Um dado visual gira antes de revelar cada movimento.</span>
+        </article>
+        <article class="feature-card">
+          <div>❓</div>
+          <strong>Perguntas sem repetição</strong>
+          <span>Cada pergunta é retirada da rodada depois de ser utilizada.</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- JOGO -->
+    <section id="screen-game" class="screen">
+      <div id="players-hud" class="players-hud"></div>
+
+      <div class="game-layout">
+        <section class="panel board-panel">
+          <div class="board-head">
+            <div>
+              <span class="tag" id="mission-label">🌎 Missão Completa</span>
+              <h2>Trilha da Resiliência</h2>
+              <p>Da nascente até a comunidade resiliente.</p>
+            </div>
+            <div class="board-status">
+              <span id="questions-left">0 perguntas inéditas</span>
+              <div class="mini-progress">
+                <div id="leader-progress"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scene-labels" aria-hidden="true">
+            <span>💧 Águas</span>
+            <span>🌿 Floresta</span>
+            <span>🏙️ Cidade</span>
+            <span>⛰️ Encosta</span>
+            <span>🏡 Resiliência</span>
+          </div>
+
+          <div class="question-theme-guide" aria-label="Cores das categorias de perguntas">
+            <span class="theme-pill theme-chuvas">🌧️ Chuvas</span>
+            <span class="theme-pill theme-queimadas">🔥 Queimadas</span>
+            <span class="theme-pill theme-calor">☀️ Calor e seca</span>
+            <span class="theme-pill theme-deslizamentos">⛰️ Deslizamentos</span>
+            <span class="theme-pill theme-completa">🌎 Resiliência geral</span>
+          </div>
+
+          <div id="board" class="board" aria-label="Tabuleiro da Missão Resiliência"></div>
+
+          <div class="board-legend">
+            <span><b>🌱</b> avanço</span>
+            <span><b>⚠️</b> recuo</span>
+            <span><b>🛡️</b> proteção</span>
+            <span><b>💡</b> curiosidade</span>
+            <span><b>❓</b> desafio bônus</span>
+          </div>
+
+          <!-- DADO ECOLÓGICO: aparece sobre o tabuleiro durante a jogada -->
+          <div id="dice-overlay" class="dice-overlay" aria-hidden="true">
+            <div class="eco-dice-card" role="dialog" aria-live="polite" aria-label="Resultado do dado">
+              <button id="dice-close-icon" class="eco-close-btn hidden" type="button" aria-label="Fechar resultado do dado">×</button>
+
+              <div class="eco-dice-top">
+                <h3 class="eco-dice-title">Dado ecológico</h3>
+                <p id="eco-dice-subtitle" class="eco-dice-subtitle">A face sorteada define a contagem da sua jogada.</p>
+              </div>
+
+              <div class="dice3d-scene" aria-label="Dado tridimensional">
+                <div class="dice3d-shadow" aria-hidden="true"></div>
+
+                <div id="eco-dice-cube" class="dice3d-cube" aria-hidden="true">
+                  <div class="dice3d-face dice3d-face--1">
+                    <span class="dice3d-symbol">🍃</span>
+                  </div>
+
+                  <div class="dice3d-face dice3d-face--2">
+                    <span class="dice3d-symbol">💧</span>
+                  </div>
+
+                  <div class="dice3d-face dice3d-face--3">
+                    <span class="dice3d-symbol">☀️</span>
+                  </div>
+
+                  <div class="dice3d-face dice3d-face--4">
+                    <span class="dice3d-symbol">♻️</span>
+                  </div>
+
+                  <div class="dice3d-face dice3d-face--5">
+                    <span class="dice3d-symbol">🌳</span>
+                  </div>
+
+                  <div class="dice3d-face dice3d-face--6">
+                    <span class="dice3d-symbol">🌍</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              <div class="eco-result-panel">
+                <p id="eco-dice-result" class="eco-result-number">Gire o dado</p>
+                <p id="eco-dice-desc" class="eco-result-text">A natureza vai definir seu movimento.</p>
+              </div>
+
+              <div class="eco-dice-actions">
+                <button id="dice-continue-btn" class="btn primary hidden" type="button">Fechar e responder</button>
+              </div>
+
+              <div class="eco-dice-legend" aria-hidden="true">
+                <div class="eco-legend-item"><span class="legend-val">1</span> 🍃 Flora</div>
+                <div class="eco-legend-item"><span class="legend-val">2</span> 💧 Água</div>
+                <div class="eco-legend-item"><span class="legend-val">3</span> ☀️ Sol</div>
+                <div class="eco-legend-item"><span class="legend-val">4</span> ♻️ Recicla</div>
+                <div class="eco-legend-item"><span class="legend-val">5</span> 🌳 Árvore</div>
+                <div class="eco-legend-item"><span class="legend-val">6</span> 🌍 Terra</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel action-panel">
+          <div class="turn-badge">
+            <span id="turn-avatar" class="turn-avatar">💧</span>
+            <div>
+              <small>Agora é a vez de</small>
+              <strong id="turn-player">Jogador</strong>
+            </div>
+          </div>
+
+          <div class="dice-mini-card" aria-hidden="true">
+            <span class="dice-mini-icon">🎲</span>
+            <div>
+              <small>Dado ecológico</small>
+              <strong>1 a 6 casas</strong>
+            </div>
+          </div>
+
+          <div id="dice-result" class="dice-result">Pronto para jogar?</div>
+
+          <h3 id="turn-title">Sua vez!</h3>
+          <p id="turn-message">Jogue o dado e responda corretamente para avançar.</p>
+
+          <button id="roll-btn" class="btn primary big">🎲 Jogar dado</button>
+          <button id="restart-btn" class="btn ghost">↻ Recomeçar partida</button>
+
+          <div class="tip-card">
+            <span>💡</span>
+            <p><strong>Dica:</strong> na competição, cada jogador responde apenas na sua vez.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- FIM -->
+    <section id="screen-finish" class="screen">
+      <div class="panel finish-panel">
+        <div id="confetti" class="confetti" aria-hidden="true"></div>
+        <div class="finish-icon">🏆</div>
+        <p class="eyebrow">Missão concluída</p>
+        <h2 id="finish-title">Parabéns!</h2>
+        <p id="finish-subtitle">A jornada terminou.</p>
+
+        <div id="winner-highlight" class="winner-highlight"></div>
+        <div id="match-ranking" class="match-ranking"></div>
+
+        <div class="ranking-box">
+          <div class="ranking-head">
+            <div>
+              <p class="eyebrow">Ranking local de teste</p>
+              <h3>Guardiões da Resiliência</h3>
+            </div>
+            <span class="rank-pill">Top 10</span>
+          </div>
+          <ol id="ranking-list" class="ranking-list"></ol>
+          <p class="ranking-note">
+            O ranking desta versão fica salvo no navegador. O código continua preparado para receber a URL do Google Apps Script na próxima etapa.
+          </p>
+        </div>
+
+        <div class="finish-actions">
+          <button id="play-again-btn" class="btn primary">Jogar novamente</button>
+          <button id="back-home-btn" class="btn ghost">Voltar ao início</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PERGUNTA -->
+  <div id="question-modal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="question-player-strip">
+        <span id="question-player-avatar" class="question-avatar">💧</span>
+        <div>
+          <small>Desafio de</small>
+          <strong id="question-player-name">Jogador</strong>
+        </div>
+        <span id="question-category" class="tag">🌎 Ambiente</span>
+      </div>
+
+      <div class="question-counter">
+        <span id="question-kind">Pergunta da rodada</span>
+        <span id="question-number">#1</span>
+      </div>
+
+      <h2 id="question-text">Pergunta</h2>
+      <div id="answers" class="answers"></div>
+      <div id="feedback" class="feedback hidden"></div>
+      <button id="continue-btn" class="btn primary hidden">Continuar</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
